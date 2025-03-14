@@ -1,4 +1,4 @@
-# Fitness Exercises App
+# Fitness Project Website
 so until now we decided to implement a website with react and node such a gym website totally we are developing a website and we are trying use packages for this website instead of coding a lot because as long as we familliar with packages it's going to be easy for coding and also saving the time.
 ## Description
 This is a **React 18 fitness exercises app** that allows users to explore exercises based on muscle groups and equipment. It fetches real-time exercise data from **RapidAPI**, displays related exercise videos, and provides details on each exercise. The app is styled using **Material UI** and includes smooth navigation with **React Router DOM**.
