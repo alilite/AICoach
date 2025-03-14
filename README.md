@@ -56,4 +56,4 @@ To deploy on **Netlify**:
 - **Netlify/Vercel** (Deployment)
 
 ## License
-MIT License
+AMGE License
