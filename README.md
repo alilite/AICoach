@@ -6,11 +6,12 @@
 
 ## 📁 Project Structure
 
+```bash
 AICoach/
-├── public/
-├── src/
-│   ├── components/             # Reusable UI elements (Navbar, Cards, etc.)
-│   ├── pages/                  # Main pages of the app
+├── public/                      # Public assets
+├── src/                         # Frontend code (React)
+│   ├── components/              # Reusable UI elements (Navbar, Cards, etc.)
+│   ├── pages/                   # App pages
 │   │   ├── Home.js
 │   │   ├── ExerciseDetail.js
 │   │   ├── UserForm.js
@@ -20,23 +21,22 @@ AICoach/
 │   │   ├── News.js
 │   │   ├── ContactUs.js
 │   │   └── WorkoutPlans.js
-│   ├── utils/                  # API fetch and AI logic
+│   ├── utils/                   # API helpers and AI logic
 │   │   ├── fetchData.js
 │   │   └── cohere.js
-│   ├── styles/                 # CSS and visual styling
-│   ├── App.js
-│   └── firebase.js
-├── server/                     # Node.js backend
-│   ├── index.js
-│   ├── firebase.js
-│   └── routes/
+│   ├── styles/                  # Styling files
+│   ├── App.js                   # App root component
+│   └── firebase.js              # Firebase client config
+├── server/                      # Backend (Node.js + Express)
+│   ├── index.js                 # Main server file
+│   ├── firebase.js              # Firebase Admin SDK config
+│   └── routes/                  # Express routes
 │       ├── stripe.js
 │       └── workouts.js
-├── .env                        # Environment variables
+├── .env                         # Environment variables
 ├── .gitignore
 ├── package.json
 └── README.md
-
 
 ---
 
@@ -91,6 +91,8 @@ Ali
 
 Erfan
 
-Mohammad Adril
+Mohammad
+
+ Adril
 
 George
