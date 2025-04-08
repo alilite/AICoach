@@ -16,55 +16,36 @@ import Dashboard from './pages/Dashboard';
 import Packages from './pages/Packages';
 import WorkoutCalendar from './pages/WorkoutCalendar';
 import ProgressTracker from './pages/ProgressTracker';
-
-// import PaymentSuccess from './pages/PaymentSuccess';
-// import PaymentCancel from './pages/PaymentCancel';
-
-
-
-
-
-
-
+import Login from './pages/Login';
+import ProtectedRoute from './routes/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 const App = () => {
   return (
-    <div>
+    <AuthProvider>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/exercises" element={<Exercises />} />
-        <Route path="/exercise/:id" element={<ExerciseDetail />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/meal-plan" element={<MealPlanGenerator />} />
+        {/* Public routes */}
         <Route path="/register" element={<Register />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/chat-history" element={<ChatHistory />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/workout-plans" element={<WorkoutPlans />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/packages" element={<Packages />} />
-        <Route path="/calendar" element={<WorkoutCalendar />} />
-        <Route path="/progress" element={<ProgressTracker />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/payment-cancel" element={<PaymentCancel />} /> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
+        {/* Protected routes */}
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
+        <Route path="/exercise/:id" element={<ProtectedRoute><ExerciseDetail /></ProtectedRoute>} />
+        <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
+        <Route path="/meal-plan" element={<ProtectedRoute><MealPlanGenerator /></ProtectedRoute>} />
+        <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+        <Route path="/chat-history" element={<ProtectedRoute><ChatHistory /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/workout-plans" element={<ProtectedRoute><WorkoutPlans /></ProtectedRoute>} />
+        <Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/packages" element={<ProtectedRoute><Packages /></ProtectedRoute>} />
+        <Route path="/calendar" element={<ProtectedRoute><WorkoutCalendar /></ProtectedRoute>} />
+        <Route path="/progress" element={<ProtectedRoute><ProgressTracker /></ProtectedRoute>} />
       </Routes>
-    </div>
+    </AuthProvider>
   );
 };
 

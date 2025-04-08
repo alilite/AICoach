@@ -3,17 +3,19 @@ const cors = require('cors');
 //const stripeRoute = require('./routes/stripe');
 const calendarRoute = require('./routes/calendar');
 const progressRoute = require('./routes/progress');
+const usersRoutes = require('./routes/users');
 
 require('dotenv').config();
 
 const app = express();
-const db = require('./firebase'); // Firebase Admin SDK
+const db = require('./firebase');
 
 app.use(cors());
 app.use(express.json());
 //app.use('/api/stripe', stripeRoute);
 app.use('/api/calendar', calendarRoute);
 app.use('/api/progress', progressRoute);
+app.use('/api/users', usersRoutes);
 
 // Root route
 app.get('/', (req, res) => {
