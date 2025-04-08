@@ -6,7 +6,37 @@
 
 ## 📁 Project Structure
 
-AICoach/ ├── public/ ├── src/ │ ├── components/ │ ├── pages/ │ │ ├── Home.js │ │ ├── ExerciseDetail.js │ │ ├── UserForm.js │ │ ├── Chat.js │ │ ├── ChatHistory.js │ │ ├── Profile.js │ │ ├── News.js │ │ ├── ContactUs.js │ │ └── WorkoutPlans.js │ ├── utils/ │ │ ├── fetchData.js │ │ ├── cohere.js │ ├── styles/ │ ├── App.js │ └── firebase.js ├── server/ │ ├── routes/ │ │ ├── stripe.js │ │ └── workouts.js │ ├── firebase.js │ └── index.js ├── .env ├── .gitignore ├── package.json └── README.md
+AICoach/
+├── public/
+├── src/
+│   ├── components/             # Reusable UI elements (Navbar, Cards, etc.)
+│   ├── pages/                  # Main pages of the app
+│   │   ├── Home.js
+│   │   ├── ExerciseDetail.js
+│   │   ├── UserForm.js
+│   │   ├── Chat.js
+│   │   ├── ChatHistory.js
+│   │   ├── Profile.js
+│   │   ├── News.js
+│   │   ├── ContactUs.js
+│   │   └── WorkoutPlans.js
+│   ├── utils/                  # API fetch and AI logic
+│   │   ├── fetchData.js
+│   │   └── cohere.js
+│   ├── styles/                 # CSS and visual styling
+│   ├── App.js
+│   └── firebase.js
+├── server/                     # Node.js backend
+│   ├── index.js
+│   ├── firebase.js
+│   └── routes/
+│       ├── stripe.js
+│       └── workouts.js
+├── .env                        # Environment variables
+├── .gitignore
+├── package.json
+└── README.md
+
 
 ---
 
