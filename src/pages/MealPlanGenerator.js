@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import { generateDietPlan } from '../utils/cohere';
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
-const UserForm = () => {
+const MealPlanGenerator = () => {
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -50,18 +52,11 @@ const UserForm = () => {
         weight: user.weight,
       };
 
-      // Save user profile
-      await fetch('http://localhost:5000/api/save-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
-
-      // Save diet plan
-      await fetch('http://localhost:5000/api/save-diet-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user: userData, plan: response }),
+      // Save to Firestore
+      await addDoc(collection(db, 'dietPlans'), {
+        user: userData,
+        plan: response,
+        createdAt: new Date(),
       });
     } catch (err) {
       console.error(err);
@@ -81,7 +76,7 @@ const UserForm = () => {
 
   return (
     <div style={{ maxWidth: '600px', margin: '40px auto', padding: '20px' }}>
-      <h2>🥗 Personalized Diet Plan Generator (Cohere AI)</h2>
+      <h2>🥗 Generate Your Personalized Meal Plan</h2>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <input name="firstName" placeholder="First Name" required onChange={handleChange} />
@@ -101,7 +96,7 @@ const UserForm = () => {
           disabled={loading}
           style={{ padding: '10px', backgroundColor: '#ff2625', color: 'white', border: 'none' }}
         >
-          {loading ? 'Generating...' : 'Get Diet Plan'}
+          {loading ? 'Generating...' : 'Generate Plan'}
         </button>
       </form>
 
@@ -122,4 +117,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default MealPlanGenerator;
