@@ -6,7 +6,7 @@
 
 ## 📁 Project Structure
 
-![Project Structure](./AICoach_Project_Structure_Diagram.png)
+AICoach/ ├── public/ ├── src/ │ ├── components/ │ ├── pages/ │ │ ├── Home.js │ │ ├── ExerciseDetail.js │ │ ├── UserForm.js │ │ ├── Chat.js │ │ ├── ChatHistory.js │ │ ├── Profile.js │ │ ├── News.js │ │ ├── ContactUs.js │ │ └── WorkoutPlans.js │ ├── utils/ │ │ ├── fetchData.js │ │ ├── cohere.js │ ├── styles/ │ ├── App.js │ └── firebase.js ├── server/ │ ├── routes/ │ │ ├── stripe.js │ │ └── workouts.js │ ├── firebase.js │ └── index.js ├── .env ├── .gitignore ├── package.json └── README.md
 
 ---
 
