@@ -1,74 +1,66 @@
-<<<<<<< HEAD
-# AICoach
-=======
-# Getting Started with Create React App
+# 🧠 AI Coach – Your Smart Fitness Companion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AI Coach** is a modern, AI-powered fitness web app that provides users with personalized exercise routines, diet plans, workout tracking, progress analytics, and real-time fitness news — all in one place.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📁 Project Structure
 
-### `npm start`
+![Project Structure](./AICoach_Project_Structure_Diagram.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🔧 Features
 
-### `npm test`
+- 🏋️‍♀️ **Browse 1300+ Exercises** using RapidAPI
+- 🎯 **Filter by Body Part, Target Muscle, or Equipment**
+- 🍽️ **AI-Powered Diet Plans** via Cohere API
+- 🗓️ **Workout Calendar** with Add/Edit/Delete
+- 📈 **Weight Progress Tracker** using Chart.js
+- 🧠 **AI Chat & Coaching** *(Coming soon!)*
+- 📰 **Live Fitness News** from NewsAPI
+- 📩 **Contact Support** via EmailJS
+- 🔐 **Firebase** for database storage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
+- React
+- React Router
+- Firebase (Web SDK)
+- Chart.js
+- EmailJS
+- Cohere AI
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend
+- Node.js + Express
+- Firebase Admin SDK
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📁 Project Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Install Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+##Front-end start
+npm start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+##Back-end start
+node index.js
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contributors
+This app was developed by:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ali
 
-### Code Splitting
+Erfan
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Mohammad Adril
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> 84a8187 (Initial commit: fitness app structure with Firebase setup)
+George
