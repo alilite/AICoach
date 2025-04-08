@@ -20,27 +20,16 @@ const Navbar = () => {
       <h1>Fitness App</h1>
       <div>
         <Link to="/" style={linkStyle}>Home</Link>
+        <Link to="/Exercises" style={linkStyle}>Exercises</Link>
         <Link to="/news" style={linkStyle}>News</Link>
-        <Link to="/user" style={linkStyle}>User Form</Link>
         <Link to="/register" style={linkStyle}>Register</Link>
         <Link to="/chat" style={linkStyle}>Chat</Link>
         <Link to="/chat-history" style={linkStyle}>ChatHistory</Link>
         <Link to="/profile" style={linkStyle}>Profile</Link>
-        <Link to="/workout-plans" style={linkStyle}>WorkoutPlans</Link>
         <Link to="/contact" style={linkStyle}>ContactUs</Link>
         <Link to="/packages" style={linkStyle}>Packages</Link>
         <Link to="/calendar" style={linkStyle}>WorkoutCalendar</Link>
         <Link to="/progress" style={linkStyle}>ProgressTracker</Link>
-
-
-
-
-        
-
-
-
-
-
       </div>
     </nav>
   );

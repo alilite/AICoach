@@ -4,8 +4,9 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ExerciseDetail from './pages/ExerciseDetail';
 import News from './pages/News';
-import UserForm from './pages/UserForm';
+import MealPlanGenerator from './pages/MealPlanGenerator';
 import Register from './pages/Register';
+import Exercises from './pages/Exercises';
 import Chat from './pages/Chat';
 import ChatHistory from './pages/ChatHistory';
 import Profile from './pages/Profile';
@@ -32,9 +33,10 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/exercises" element={<Exercises />} />
         <Route path="/exercise/:id" element={<ExerciseDetail />} />
         <Route path="/news" element={<News />} />
-        <Route path="/user" element={<UserForm />} />
+        <Route path="/meal-plan" element={<MealPlanGenerator />} />
         <Route path="/register" element={<Register />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/chat-history" element={<ChatHistory />} />
