@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 //const stripeRoute = require('./routes/stripe');
@@ -5,8 +6,7 @@ const calendarRoute = require('./routes/calendar');
 const progressRoute = require('./routes/progress');
 const usersRoutes = require('./routes/users');
 const workoutPlanRoutes = require('./routes/workoutPlans');
-
-require('dotenv').config();
+const mealPlanRoutes = require('./routes/mealPlans');
 
 const app = express();
 const db = require('./firebase');
@@ -18,6 +18,7 @@ app.use('/api/calendar', calendarRoute);
 app.use('/api/progress', progressRoute);
 app.use('/api/users', usersRoutes);
 app.use('/api/workout-plans', workoutPlanRoutes);
+app.use('/api/meal-plans', mealPlanRoutes);
 
 // Root route
 app.get('/', (req, res) => {

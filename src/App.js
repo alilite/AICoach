@@ -10,9 +10,7 @@ import Exercises from './pages/Exercises';
 import Chat from './pages/Chat';
 import ChatHistory from './pages/ChatHistory';
 import Profile from './pages/Profile';
-import WorkoutPlans from './pages/WorkoutPlans';
 import ContactUs from './pages/ContactUs';
-import Dashboard from './pages/Dashboard';
 import Packages from './pages/Packages';
 import WorkoutCalendar from './pages/WorkoutCalendar';
 import ProgressTracker from './pages/ProgressTracker';
@@ -38,9 +36,7 @@ const App = () => {
         <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
         <Route path="/chat-history" element={<ProtectedRoute><ChatHistory /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/workout-plans" element={<ProtectedRoute><WorkoutPlans /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/packages" element={<ProtectedRoute><Packages /></ProtectedRoute>} />
         <Route path="/calendar" element={<ProtectedRoute><WorkoutCalendar /></ProtectedRoute>} />
         <Route path="/progress" element={<ProtectedRoute><ProgressTracker /></ProtectedRoute>} />

@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { generatePDF, parseStructuredPlan } from '../utils/pdfHelpers';
-import { generateWorkoutPlan, getWorkoutPlan, getUserProfile } from '../utils/api';
+import {
+  generatePDF,
+  parseStructuredPlan
+} from '../utils/pdfHelpers';
+import {
+  generateWorkoutPlan,
+  getWorkoutPlan,
+  getUserProfile,
+  getMealPlan,
+  generateMealPlan
+} from '../utils/api';
 import '../styles/Home.css';
-
 
 const Home = () => {
   const [userId, setUserId] = useState(null);
@@ -26,16 +34,16 @@ const Home = () => {
 
   useEffect(() => {
     if (!userId) return;
-  
+
     const fetchData = async () => {
       try {
-        // Get User Profile
+        // ✅ Get User Profile
         const profile = await getUserProfile(userId);
         if (profile.firstName && profile.lastName) {
           setUserName(`${profile.firstName} ${profile.lastName}`);
         }
-  
-        // Get Workout Plan
+
+        // ✅ Get Workout Plan
         const workout = await getWorkoutPlan(userId);
         setWorkoutPlan(workout.plan);
         setWorkoutTime(workout.createdAt);
@@ -48,8 +56,23 @@ const Home = () => {
       } finally {
         setLoadingWorkout(false);
       }
+
+      try {
+        // ✅ Get Meal Plan
+        const meal = await getMealPlan(userId);
+        setMealPlan(meal.plan);
+        setMealTime(meal.createdAt);
+      } catch (err) {
+        if (err.message.includes('not found')) {
+          await regenerateMealPlan();
+        } else {
+          console.error('Meal fetch error:', err);
+        }
+      } finally {
+        setLoadingMeal(false);
+      }
     };
-  
+
     fetchData();
   }, [userId]);
 
@@ -69,12 +92,7 @@ const Home = () => {
   const regenerateMealPlan = async () => {
     setLoadingMeal(true);
     try {
-      const res = await fetch('http://localhost:5000/api/meal-plans', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      const data = await res.json();
+      const data = await generateMealPlan(userId);
       setMealPlan(data.plan || 'No plan returned.');
       setMealTime(new Date());
     } catch (err) {
@@ -86,7 +104,7 @@ const Home = () => {
 
   const Card = ({ title, icon, content, timestamp, onRegenerate, loading, downloadLabel }) => {
     const parsedContent = parseStructuredPlan(content);
-  
+
     return (
       <div
         style={{
@@ -99,13 +117,11 @@ const Home = () => {
           fontFamily: 'monospace'
         }}
       >
-        {/* Title / Header */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
           <span style={{ fontSize: '20px', marginRight: '10px' }}>{icon}</span>
           <h3 style={{ margin: 0, fontSize: '18px', color: '#222' }}>{title}</h3>
         </div>
-  
-        {/* Scrollable Content */}
+
         <div
           style={{
             maxHeight: '300px',
@@ -138,46 +154,43 @@ const Home = () => {
             </p>
           )}
         </div>
-  
-        {/* Metadata */}
+
         {timestamp && (
           <p style={{ fontSize: '12px', color: '#999', marginTop: '12px' }}>
             ⏱ Last updated: {new Date(timestamp).toLocaleString()}
           </p>
         )}
-  
-        {/* Buttons */}
+
         <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
-        <button onClick={onRegenerate} disabled={loading} className="generate-button">
-  {loading ? (
-    <>
-      Generating...
-      <span className="spinner" />
-    </>
-  ) : (
-    'Generate New'
-  )}
-</button>
+          <button onClick={onRegenerate} disabled={loading} className="generate-button">
+            {loading ? (
+              <>
+                Generating...
+                <span className="spinner" />
+              </>
+            ) : (
+              'Generate New'
+            )}
+          </button>
           {content && (
             <button
-            onClick={() =>
-              generatePDF(
-                title,
-                parsedContent,
-                title.replace(/\s+/g, '_'),
-                userName,
-                Array.isArray(parsedContent)
-              )
-            }
-          >
-            {downloadLabel}
-          </button>          
+              onClick={() =>
+                generatePDF(
+                  title,
+                  parsedContent,
+                  title.replace(/\s+/g, '_'),
+                  userName,
+                  Array.isArray(parsedContent)
+                )
+              }
+            >
+              {downloadLabel}
+            </button>
           )}
         </div>
       </div>
     );
   };
-  
 
   return (
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px' }}>

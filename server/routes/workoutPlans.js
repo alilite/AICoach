@@ -2,7 +2,7 @@ const express = require('express');
 const { db } = require('../firebase');
 const router = express.Router();
 
-const COHERE_API_KEY = process.env.REACT_APP_COHERE_API_KEY;
+const COHERE_API_KEY = process.env.COHERE_API_KEY;
 
 router.post('/', async (req, res) => {
   const { userId } = req.body;
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     const response = await fetch('https://api.cohere.ai/v1/generate', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer q0IMFR3ejHJ8OfKQNSXQ2CVgfDdQRt0JvUtgofUq`,
+        Authorization: `Bearer ${COHERE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
