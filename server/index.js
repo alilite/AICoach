@@ -4,6 +4,7 @@ const cors = require('cors');
 const calendarRoute = require('./routes/calendar');
 const progressRoute = require('./routes/progress');
 const usersRoutes = require('./routes/users');
+const workoutPlanRoutes = require('./routes/workoutPlans');
 
 require('dotenv').config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api/calendar', calendarRoute);
 app.use('/api/progress', progressRoute);
 app.use('/api/users', usersRoutes);
+app.use('/api/workout-plans', workoutPlanRoutes);
 
 // Root route
 app.get('/', (req, res) => {
