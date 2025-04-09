@@ -76,5 +76,34 @@ export const getUserProfile = async (userId) => {
   
     return data;
   };
+
+  // Get Meal Plan
+  export const getMealPlan = async (userId) => {
+    const res = await fetch(`${API_URL}/meal-plans/${userId}`);
+    const data = await res.json();
+  
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to fetch meal plan');
+    }
+  
+    return data;
+  };
+  
+  // Generate Meal Plan
+  export const generateMealPlan = async (userId) => {
+    const res = await fetch(`${API_URL}/meal-plans`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+  
+    const data = await res.json();
+  
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to generate meal plan');
+    }
+  
+    return data;
+  };
   
 
