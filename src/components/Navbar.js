@@ -36,7 +36,6 @@ const Navbar = () => {
             <Link to="/exercises" style={linkStyle}>Exercises</Link>
             <Link to="/news" style={linkStyle}>News</Link>
             <Link to="/chat" style={linkStyle}>Chat</Link>
-            <Link to="/chat-history" style={linkStyle}>ChatHistory</Link>
             <Link to="/profile" style={linkStyle}>Profile</Link>
             <Link to="/contact" style={linkStyle}>ContactUs</Link>
             <Link to="/packages" style={linkStyle}>Packages</Link>

@@ -44,7 +44,7 @@ const Home = () => {
         }
 
         // Get Workout Plan
-        const workout = await getWorkoutPlan(userId);
+        const workout = await getWorkoutPlan();
         setWorkoutPlan(workout.plan);
         setWorkoutTime(workout.createdAt);
       } catch (err) {
@@ -59,7 +59,7 @@ const Home = () => {
 
       try {
         // Get Meal Plan
-        const meal = await getMealPlan(userId);
+        const meal = await getMealPlan();
         setMealPlan(meal.plan);
         setMealTime(meal.createdAt);
       } catch (err) {

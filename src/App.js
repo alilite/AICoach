@@ -7,7 +7,6 @@ import News from './pages/News';
 import Register from './pages/Register';
 import Exercises from './pages/Exercises';
 import Chat from './pages/Chat';
-import ChatHistory from './pages/ChatHistory';
 import Profile from './pages/Profile';
 import ContactUs from './pages/ContactUs';
 import Packages from './pages/Packages';
@@ -32,7 +31,6 @@ const App = () => {
         <Route path="/exercise/:id" element={<ProtectedRoute><ExerciseDetail /></ProtectedRoute>} />
         <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
         <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
-        <Route path="/chat-history" element={<ProtectedRoute><ChatHistory /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
         <Route path="/packages" element={<ProtectedRoute><Packages /></ProtectedRoute>} />

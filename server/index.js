@@ -7,6 +7,8 @@ const progressRoute = require('./routes/progress');
 const usersRoutes = require('./routes/users');
 const workoutPlanRoutes = require('./routes/workoutPlans');
 const mealPlanRoutes = require('./routes/mealPlans');
+const chatRoutes = require('./routes/chats');
+
 
 const app = express();
 const db = require('./firebase');
@@ -19,6 +21,7 @@ app.use('/api/progress', progressRoute);
 app.use('/api/users', usersRoutes);
 app.use('/api/workout-plans', workoutPlanRoutes);
 app.use('/api/meal-plans', mealPlanRoutes);
+app.use('/api/chats', chatRoutes);
 
 // Root route
 app.get('/', (req, res) => {
