@@ -105,5 +105,36 @@ export const getUserProfile = async (userId) => {
   
     return data;
   };
+
+  // Update User Profile
+export const updateUserProfile = async (userId, updatedData) => {
+  const res = await fetch(`http://localhost:5000/api/users/${userId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedData),
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to update user profile');
+  }
+
+  return data;
+};
+
+// Delete User
+export const deleteUser = async (userId) => {
+  const res = await fetch(`http://localhost:5000/api/users/${userId}`, {
+    method: 'DELETE',
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to delete user');
+  }
+
+  return data;
+};
+
   
 

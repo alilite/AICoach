@@ -43,6 +43,9 @@ export const generatePDF = (title, content, filename, userName = '', isStructure
         fontSize: 10,
         valign: 'top',
       },
+      theme: 'grid',
+      headStyles: { fillColor: [33, 33, 33] },
+      pageBreak: 'auto', 
     });
   } else {
     doc.setFontSize(12);
