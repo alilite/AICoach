@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ExerciseDetail from './pages/ExerciseDetail';
 import News from './pages/News';
-import MealPlanGenerator from './pages/MealPlanGenerator';
 import Register from './pages/Register';
 import Exercises from './pages/Exercises';
 import Chat from './pages/Chat';
@@ -32,7 +31,6 @@ const App = () => {
         <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
         <Route path="/exercise/:id" element={<ProtectedRoute><ExerciseDetail /></ProtectedRoute>} />
         <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
-        <Route path="/meal-plan" element={<ProtectedRoute><MealPlanGenerator /></ProtectedRoute>} />
         <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
         <Route path="/chat-history" element={<ProtectedRoute><ChatHistory /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

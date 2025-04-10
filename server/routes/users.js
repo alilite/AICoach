@@ -20,7 +20,11 @@ router.post('/', userValidationRules, async (req, res) => {
       });
   
       // Save additional profile data in Firestore
-      await db.collection('users').doc(userRecord.uid).set(profileData);
+      await db.collection('users').doc(userRecord.uid).set({
+        email,
+        ...profileData,
+      });
+      
   
       res.status(201).json({
         id: userRecord.uid,
@@ -60,12 +64,31 @@ router.get('/:id', async (req, res) => {
 
 // DELETE user
 router.delete('/:id', async (req, res) => {
+  const userId = req.params.id;
+
   try {
-    await db.collection('users').doc(req.params.id).delete();
-    res.json({ message: 'User deleted' });
+    // Delete user document
+    await db.collection('users').doc(userId).delete();
+
+    // Delete workout plans associated with the user
+    const workoutSnapshot = await db.collection('workoutPlans').where('userId', '==', userId).get();
+    const workoutDeletes = workoutSnapshot.docs.map(doc => doc.ref.delete());
+
+    // Delete meal plans associated with the user
+    const mealSnapshot = await db.collection('mealPlans').where('userId', '==', userId).get();
+    const mealDeletes = mealSnapshot.docs.map(doc => doc.ref.delete());
+
+    // Wait for all deletes to complete
+    await Promise.all([...workoutDeletes, ...mealDeletes]);
+
+    await auth.deleteUser(userId);
+
+    res.json({ message: 'User and associated plans deleted successfully.' });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to delete user' });
+    console.error('Failed to delete user and associated data:', err);
+    res.status(500).json({ error: 'Failed to delete user data' });
   }
 });
+
 
 module.exports = router;

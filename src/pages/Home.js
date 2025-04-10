@@ -37,13 +37,13 @@ const Home = () => {
 
     const fetchData = async () => {
       try {
-        // ✅ Get User Profile
+        // Get User Profile
         const profile = await getUserProfile(userId);
         if (profile.firstName && profile.lastName) {
           setUserName(`${profile.firstName} ${profile.lastName}`);
         }
 
-        // ✅ Get Workout Plan
+        // Get Workout Plan
         const workout = await getWorkoutPlan(userId);
         setWorkoutPlan(workout.plan);
         setWorkoutTime(workout.createdAt);
@@ -58,7 +58,7 @@ const Home = () => {
       }
 
       try {
-        // ✅ Get Meal Plan
+        // Get Meal Plan
         const meal = await getMealPlan(userId);
         setMealPlan(meal.plan);
         setMealTime(meal.createdAt);
