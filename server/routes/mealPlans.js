@@ -1,36 +1,25 @@
 const express = require('express');
 const { db } = require('../firebase');
+const verifyToken = require('../middlewares/verifyToken');
 const router = express.Router();
 
 const COHERE_API_KEY = process.env.COHERE_API_KEY;
 
-router.post('/', async (req, res) => {
-  const { userId } = req.body;
-
-  if (!userId) {
-    return res.status(400).json({ error: 'User ID is required' });
-  }
+router.post('/', verifyToken, async (req, res) => {
+  const userId = req.user.uid;
 
   try {
-    // Get user profile from Firestore
     const userDoc = await db.collection('users').doc(userId).get();
-    if (!userDoc.exists) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    if (!userDoc.exists) return res.status(404).json({ error: 'User not found' });
 
     const user = userDoc.data();
-
-    // Calculate age
     let age = 'unknown';
     if (user.dob) {
       const year = new Date(user.dob).getFullYear();
       const currentYear = new Date().getFullYear();
-      if (!isNaN(year)) {
-        age = currentYear - year;
-      }
+      if (!isNaN(year)) age = currentYear - year;
     }
 
-    // Build prompt for Cohere
     const prompt = `
     Hi, my name is ${user.firstName} ${user.lastName}.
     Create a 7-day personalized meal plan for me based on:
@@ -59,7 +48,6 @@ router.post('/', async (req, res) => {
     const data = await response.json();
     const mealPlan = data.generations?.[0]?.text?.trim() || 'Could not generate meal plan.';
 
-    // Save to Firestore
     await db.collection('mealPlans').add({
       userId,
       plan: mealPlan,
@@ -73,9 +61,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET latest meal plan
-router.get('/:userId', async (req, res) => {
-  const { userId } = req.params;
+router.get('/', verifyToken, async (req, res) => {
+  const userId = req.user.uid;
 
   try {
     const snapshot = await db
