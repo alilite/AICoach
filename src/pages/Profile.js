@@ -8,7 +8,7 @@ import {
   updateUserProfile,
   deleteUser,
 } from '../utils/api';
-
+import '../styles/Profile.css'
 const Profile = () => {
   const [userId, setUserId] = useState(null);
   const [profile, setProfile] = useState({
