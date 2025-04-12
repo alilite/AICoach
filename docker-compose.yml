@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./server
+    container_name: aicoach-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    build:
+      context: .
+    container_name: aicoach-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
