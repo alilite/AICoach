@@ -15,6 +15,7 @@ import {
 import '../styles/Home.css';
 
 const Home = () => {
+  // Authenticated user's info and plan states
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState('');
   const [workoutPlan, setWorkoutPlan] = useState('');
@@ -24,6 +25,7 @@ const Home = () => {
   const [loadingWorkout, setLoadingWorkout] = useState(true);
   const [loadingMeal, setLoadingMeal] = useState(true);
 
+  // Detect logged-in user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) setUserId(user.uid);
@@ -32,22 +34,24 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
+  // Fetch user profile and plans
   useEffect(() => {
     if (!userId) return;
 
     const fetchData = async () => {
       try {
-        // Get User Profile
+        // Get user name
         const profile = await getUserProfile(userId);
         if (profile.firstName && profile.lastName) {
           setUserName(`${profile.firstName} ${profile.lastName}`);
         }
 
-        // Get Workout Plan
+        // Try fetching workout plan
         const workout = await getWorkoutPlan();
         setWorkoutPlan(workout.plan);
         setWorkoutTime(workout.createdAt);
       } catch (err) {
+        // Generate a new one if not found
         if (err.message.includes('not found')) {
           await regenerateWorkoutPlan();
         } else {
@@ -58,11 +62,12 @@ const Home = () => {
       }
 
       try {
-        // Get Meal Plan
+        // Try fetching meal plan
         const meal = await getMealPlan();
         setMealPlan(meal.plan);
         setMealTime(meal.createdAt);
       } catch (err) {
+        // Generate a new one if not found
         if (err.message.includes('not found')) {
           await regenerateMealPlan();
         } else {
@@ -76,6 +81,7 @@ const Home = () => {
     fetchData();
   }, [userId]);
 
+  // Regenerate workout plan
   const regenerateWorkoutPlan = async () => {
     setLoadingWorkout(true);
     try {
@@ -89,6 +95,7 @@ const Home = () => {
     }
   };
 
+  // Regenerate meal plan
   const regenerateMealPlan = async () => {
     setLoadingMeal(true);
     try {
@@ -102,75 +109,42 @@ const Home = () => {
     }
   };
 
+  // Card component for displaying and downloading plans
   const Card = ({ title, icon, content, timestamp, onRegenerate, loading, downloadLabel }) => {
     const parsedContent = parseStructuredPlan(content);
 
     return (
-      <div
-        style={{
-          background: '#f9f9f9',
-          border: '1px solid #ccc',
-          padding: '20px',
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-          marginBottom: '30px',
-          fontFamily: 'monospace'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-          <span style={{ fontSize: '20px', marginRight: '10px' }}>{icon}</span>
-          <h3 style={{ margin: 0, fontSize: '18px', color: '#222' }}>{title}</h3>
+      <div className="plan-card">
+        <div className="card-header">
+          <span>{icon}</span>
+          <h3>{title}</h3>
         </div>
 
-        <div
-          style={{
-            maxHeight: '300px',
-            overflowY: 'auto',
-            border: '1px solid #eee',
-            padding: '10px',
-            borderRadius: '6px',
-            backgroundColor: '#fff'
-          }}
-        >
+        {/* Plan content displayed line by line or day-by-day */}
+        <div className="card-content">
           {Array.isArray(parsedContent) ? (
             parsedContent.map((entry, i) => (
-              <div key={i} style={{ marginBottom: '15px' }}>
-                <strong style={{ fontSize: '15px', color: '#333' }}>{entry.day}</strong>
-                <p
-                  style={{
-                    whiteSpace: 'pre-line',
-                    margin: '5px 0 0 10px',
-                    fontSize: '13px',
-                    color: '#444'
-                  }}
-                >
-                  {entry.details}
-                </p>
+              <div key={i}>
+                <strong>{entry.day}</strong>
+                <p>{entry.details}</p>
               </div>
             ))
           ) : (
-            <p style={{ whiteSpace: 'pre-line', fontSize: '13px', color: '#444' }}>
-              {parsedContent || 'No data yet.'}
-            </p>
+            <p>{parsedContent || 'No data yet.'}</p>
           )}
         </div>
 
+        {/* Timestamp of last generation */}
         {timestamp && (
-          <p style={{ fontSize: '12px', color: '#999', marginTop: '12px' }}>
+          <p className="card-timestamp">
             ⏱ Last updated: {new Date(timestamp).toLocaleString()}
           </p>
         )}
 
-        <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
+        {/* Buttons: Regenerate + Download PDF */}
+        <div className="card-actions">
           <button onClick={onRegenerate} disabled={loading} className="generate-button">
-            {loading ? (
-              <>
-                Generating...
-                <span className="spinner" />
-              </>
-            ) : (
-              'Generate New'
-            )}
+            {loading ? 'Generating...' : 'Generate New'}
           </button>
           {content && (
             <button
@@ -193,8 +167,10 @@ const Home = () => {
   };
 
   return (
-    <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px' }}>
+    <div className="home-container">
       <h2>🏠 Home</h2>
+
+      {/* Meal Plan Card */}
       <Card
         title="Meal Plan"
         content={mealPlan}
@@ -203,6 +179,8 @@ const Home = () => {
         loading={loadingMeal}
         downloadLabel="Download Meal PDF"
       />
+
+      {/* Workout Plan Card */}
       <Card
         title="Workout Plan"
         content={workoutPlan}

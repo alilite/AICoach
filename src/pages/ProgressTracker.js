@@ -12,6 +12,7 @@ const ProgressTracker = () => {
   const [userId, setUserId] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
+  // Get user ID from Firebase auth
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) setUserId(user.uid);
@@ -20,10 +21,12 @@ const ProgressTracker = () => {
     return () => unsubscribe();
   }, []);
 
+  // Fetch logs when user ID is available
   useEffect(() => {
     if (userId) fetchLogs();
   }, [userId]);
 
+  // Fetch user's progress logs from backend
   const fetchLogs = async () => {
     try {
       const res = await fetch(`http://localhost:5000/api/progress/${userId}`);
@@ -36,6 +39,7 @@ const ProgressTracker = () => {
     }
   };
 
+  // Normalize different timestamp formats to yyyy-mm-dd
   const normalizeDate = (timestamp) => {
     if (!timestamp) return null;
     if (timestamp._seconds) return new Date(timestamp._seconds * 1000).toISOString().split('T')[0];
@@ -44,11 +48,13 @@ const ProgressTracker = () => {
     return isNaN(d.getTime()) ? null : d.toISOString().split('T')[0];
   };
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Submit new or updated log
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = { ...form, userId };
@@ -74,6 +80,7 @@ const ProgressTracker = () => {
     }
   };
 
+  // Load selected log into form for editing
   const handleEdit = (log) => {
     setForm({
       date: normalizeDate(log.date),
@@ -83,6 +90,7 @@ const ProgressTracker = () => {
     setEditingId(log.id);
   };
 
+  // Delete log from backend
   const handleDelete = async (id) => {
     try {
       await fetch(`http://localhost:5000/api/progress/${id}`, {
@@ -94,6 +102,7 @@ const ProgressTracker = () => {
     }
   };
 
+  // Prepare chart data
   const chartData = logs
     .map((log) => ({
       date: normalizeDate(log.date),
@@ -105,6 +114,7 @@ const ProgressTracker = () => {
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px' }}>
       <h2>📋 Progress Tracker</h2>
 
+      {/* Progress form */}
       <form
         onSubmit={handleSubmit}
         style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}
@@ -120,10 +130,12 @@ const ProgressTracker = () => {
         </button>
       </form>
 
+      {/* Error message */}
       {error && (
         <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>
       )}
 
+      {/* Chart */}
       {chartData.length > 0 && (
         <>
           <h3>📈 Weight Over Time</h3>
@@ -139,6 +151,7 @@ const ProgressTracker = () => {
         </>
       )}
 
+      {/* Logs Table */}
       {logs.length > 0 ? (
         <table
           style={{
@@ -188,6 +201,7 @@ const ProgressTracker = () => {
   );
 };
 
+// Table cell styles
 const thStyle = {
   padding: '12px',
   borderBottom: '1px solid #ddd',

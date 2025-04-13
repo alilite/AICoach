@@ -8,15 +8,21 @@ import {
 } from 'recharts';
 
 const WorkoutCalendar = () => {
+  // State for user ID and workout entries
   const [userId, setUserId] = useState(null);
   const [workouts, setWorkouts] = useState([]);
+
+  // State for form inputs and selected date
   const [form, setForm] = useState({ workout: '', notes: '' });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [editingId, setEditingId] = useState(null);
+
+  // UI control states
   const [showHistory, setShowHistory] = useState(false);
   const [filterType, setFilterType] = useState('all');
   const [onlyThisWeek, setOnlyThisWeek] = useState(false);
 
+  // Get user ID when authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) setUserId(user.uid);
@@ -24,10 +30,12 @@ const WorkoutCalendar = () => {
     return () => unsubscribe();
   }, []);
 
+  // Fetch user's workouts from backend
   useEffect(() => {
     if (userId) fetchWorkouts();
   }, [userId]);
 
+  // API call to fetch workouts
   const fetchWorkouts = async () => {
     try {
       const res = await fetch(`http://localhost:5000/api/calendar/${userId}`);
@@ -38,6 +46,7 @@ const WorkoutCalendar = () => {
     }
   };
 
+  // Format Firestore or JS Date object into yyyy-mm-dd
   const normalizeDate = (dateInput) => {
     try {
       if (!dateInput) return null;
@@ -54,6 +63,7 @@ const WorkoutCalendar = () => {
     }
   };
 
+  // Filter logic to check if a date is within the past 7 days
   const isWithinThisWeek = (dateStr) => {
     const date = new Date(dateStr);
     const now = new Date();
@@ -63,6 +73,7 @@ const WorkoutCalendar = () => {
 
   const selectedDateStr = normalizeDate(selectedDate);
 
+  // Filtered workouts for the selected date + filters
   const filteredWorkouts = workouts.filter((w) => {
     const workoutDate = normalizeDate(w.date);
     if (!workoutDate) return false;
@@ -73,6 +84,7 @@ const WorkoutCalendar = () => {
     return matchesType && matchesWeek && workoutDate === selectedDateStr;
   });
 
+  // All workouts filtered by type/week for chart + history
   const globalFiltered = workouts.filter((w) => {
     const workoutDate = normalizeDate(w.date);
     if (!workoutDate) return false;
@@ -81,13 +93,16 @@ const WorkoutCalendar = () => {
     return matchesType && matchesWeek;
   });
 
+  // Unique workout types for dropdown filter
   const workoutTypes = [...new Set(workouts.map(w => w.workout?.toLowerCase()).filter(Boolean))];
 
+  // Form input handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Submit new or updated workout
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -116,6 +131,7 @@ const WorkoutCalendar = () => {
     }
   };
 
+  // Load workout into form for editing
   const handleEdit = (entry) => {
     const date = entry.date?._seconds
       ? new Date(entry.date._seconds * 1000)
@@ -125,6 +141,7 @@ const WorkoutCalendar = () => {
     setSelectedDate(date);
   };
 
+  // Delete workout by ID
   const handleDelete = async (id) => {
     try {
       await fetch(`http://localhost:5000/api/calendar/${id}`, {
@@ -136,6 +153,7 @@ const WorkoutCalendar = () => {
     }
   };
 
+  // Chart data: count workouts per day
   const chartData = Object.entries(
     globalFiltered.reduce((acc, curr) => {
       const day = normalizeDate(curr.date);
@@ -145,12 +163,14 @@ const WorkoutCalendar = () => {
     }, {})
   ).map(([date, count]) => ({ date, count }));
 
+  // All unique workout days for history modal
   const historyDates = [...new Set(globalFiltered.map(w => normalizeDate(w.date)).filter(d => d))];
 
   return (
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px' }}>
       <h2>📅 Workout Calendar</h2>
 
+      {/* Calendar component */}
       <Calendar onChange={setSelectedDate} value={selectedDate} />
 
       {/* Filters */}
@@ -166,6 +186,7 @@ const WorkoutCalendar = () => {
         </label>
       </div>
 
+      {/* Workout entry form */}
       <form
         onSubmit={handleSubmit}
         style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}
@@ -197,6 +218,7 @@ const WorkoutCalendar = () => {
         </button>
       </form>
 
+      {/* Chart */}
       <h3>📊 Workout Frequency Chart:</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>
@@ -208,6 +230,7 @@ const WorkoutCalendar = () => {
         </BarChart>
       </ResponsiveContainer>
 
+      {/* List of workouts on selected date */}
       <h3>🗓️ Workouts on {selectedDate.toDateString()}:</h3>
       {filteredWorkouts.length === 0 ? (
         <p>No workouts scheduled for this day.</p>
@@ -232,6 +255,7 @@ const WorkoutCalendar = () => {
         ))
       )}
 
+      {/* Workout History Modal */}
       {showHistory && (
         <div
           onClick={() => setShowHistory(false)}
@@ -264,6 +288,7 @@ const WorkoutCalendar = () => {
 };
 
 export default WorkoutCalendar;
+
 
 
 // import React, { useEffect, useState } from 'react';
