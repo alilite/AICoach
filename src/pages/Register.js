@@ -7,6 +7,7 @@ import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  // Store form input data
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,27 +19,27 @@ const Register = () => {
     goal: '',
   });
 
+  // For showing any registration errors
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
+  // Update form data on input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const navigate = useNavigate();
-
+  // Handle form submission and registration
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-    try 
-    {
+    try {
+      // Send user data to backend
       const response = await registerUser(formData);
-      // immediately sign in using Firebase client SDK
+      // Sign in immediately after registration
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       navigate('/');
-    }
-      catch (error)
-    {
+    } catch (error) {
       console.error('Error registering user:', error);
       setErrorMessage(error.message || 'Failed to register. Try again.');
     }
@@ -90,7 +91,7 @@ const Register = () => {
           <input name="dob" className="input" type="date" required onChange={handleChange} />
         </div>
 
-        {/* Fitness Goal */}
+        {/* Fitness Goal Selection */}
         <div className="radioContainer">
           <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Fitness Goal:</label>
           <label className="radioLabel">
@@ -107,8 +108,10 @@ const Register = () => {
           </label>
         </div>
 
+        {/* Show error if any */}
         {errorMessage && <div style={{ color: 'red', fontSize: '13px', marginBottom: '10px' }}>{errorMessage}</div>}
 
+        {/* Submit button */}
         <button className="button" type="submit">Register</button>
       </form>
     </div>

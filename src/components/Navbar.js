@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
+import { Link } from 'react-router-dom'; // For navigation between pages
+import { useAuth } from '../context/AuthContext'; // Custom hook to get logged-in user
+import { signOut } from 'firebase/auth'; // Sign out function from Firebase
+import { auth } from '../firebase'; // Firebase auth instance
 
 const Navbar = () => {
-  const { user } = useAuth();
-  const [showDropdown, setShowDropdown] = useState(false);
+  const { user } = useAuth(); // Get current user from context
+  const [showDropdown, setShowDropdown] = useState(false); // Show/hide profile dropdown menu
 
+  // Style for links in the navbar
   const linkStyle = {
     marginRight: '15px',
     color: 'white',
@@ -16,11 +17,13 @@ const Navbar = () => {
     fontWeight: 'bold',
   };
 
+  // Style for the dropdown container (like Profile ▼)
   const dropdownContainerStyle = {
     position: 'relative',
     cursor: 'pointer',
   };
 
+  // Style for the dropdown box
   const dropdownStyle = {
     position: 'absolute',
     top: '40px',
@@ -34,6 +37,7 @@ const Navbar = () => {
     minWidth: '200px',
   };
 
+  // Style for each dropdown item (links inside the menu)
   const dropdownItemStyle = {
     padding: '12px 18px',
     display: 'block',
@@ -42,18 +46,21 @@ const Navbar = () => {
     transition: 'background 0.3s',
   };
 
+  // What happens when hovering over a dropdown item
   const dropdownItemHover = {
     backgroundColor: '#f5f5f5',
   };
 
+  // When the user clicks "Logout"
   const handleLogout = async () => {
-    await signOut(auth);
-    localStorage.removeItem('token');
+    await signOut(auth); // Firebase sign out
+    localStorage.removeItem('token'); // Remove stored user data
     localStorage.removeItem('userId');
   };
 
   return (
     <>
+      {/* Simple animation when dropdown shows */}
       <style>
         {`
           @keyframes fadeDown {
@@ -68,6 +75,8 @@ const Navbar = () => {
           }
         `}
       </style>
+
+      {/* Navbar main layout */}
       <nav style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -78,8 +87,10 @@ const Navbar = () => {
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
       }}>
         <h1 style={{ fontSize: '24px', fontWeight: 'bold' }}>🔥 Fitness App</h1>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           {user ? (
+            // If user is logged in, show all nav links + profile dropdown
             <>
               <Link to="/" style={linkStyle}>Home</Link>
               <Link to="/exercises" style={linkStyle}>Exercises</Link>
@@ -88,17 +99,32 @@ const Navbar = () => {
               <Link to="/contact" style={linkStyle}>Contact</Link>
               <Link to="/packages" style={linkStyle}>Packages</Link>
 
+              {/* Dropdown for profile options */}
               <div
                 style={dropdownContainerStyle}
                 onMouseEnter={() => setShowDropdown(true)}
                 onMouseLeave={() => setShowDropdown(false)}
               >
                 <span style={linkStyle}>Profile ▼</span>
+
                 {showDropdown && (
                   <div style={dropdownStyle}>
-                    <Link to="/profile" style={dropdownItemStyle} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = ''}>👤 My Profile</Link>
-                    <Link to="/calendar" style={dropdownItemStyle} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = ''}>🗓 Workout Calendar</Link>
-                    <Link to="/progress" style={dropdownItemStyle} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = ''}>📈 Progress Tracker</Link>
+                    {/* Hover effect handled manually with inline events */}
+                    <Link to="/profile" style={dropdownItemStyle}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = ''}>
+                      👤 My Profile
+                    </Link>
+                    <Link to="/calendar" style={dropdownItemStyle}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = ''}>
+                      🗓 Workout Calendar
+                    </Link>
+                    <Link to="/progress" style={dropdownItemStyle}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = ''}>
+                      📈 Progress Tracker
+                    </Link>
                     <span
                       onClick={handleLogout}
                       style={{ ...dropdownItemStyle, cursor: 'pointer' }}
@@ -111,6 +137,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
+            // If user is not logged in
             <>
               <Link to="/login" style={linkStyle}>Login</Link>
               <Link to="/register" style={linkStyle}>Register</Link>
@@ -123,6 +150,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 // import React from 'react';

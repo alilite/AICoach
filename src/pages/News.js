@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 const News = () => {
+  // State to store news articles, selected category, and loading status
   const [articles, setArticles] = useState([]);
   const [category, setCategory] = useState('sports');
   const [loading, setLoading] = useState(true);
 
+  // Available categories for the user to choose from
   const categories = ['sports', 'technology', 'business', 'health', 'science', 'entertainment'];
 
+  // Fetch news articles when the category changes
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
@@ -32,11 +35,12 @@ const News = () => {
         🗞️ Latest {category.charAt(0).toUpperCase() + category.slice(1)} News
       </h2>
 
+      {/* Category filter buttons */}
       <div style={{ marginBottom: '30px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
         {categories.map((cat) => (
           <button
             key={cat}
-            onClick={() => setCategory(cat)}
+            onClick={() => setCategory(cat)} // Set selected category
             style={{
               padding: '8px 14px',
               borderRadius: '20px',
@@ -53,6 +57,7 @@ const News = () => {
         ))}
       </div>
 
+      {/* Show loading or articles */}
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -70,6 +75,7 @@ const News = () => {
               backgroundColor: '#fafafa',
             }}
           >
+            {/* Show thumbnail image if available */}
             {article.urlToImage && (
               <img
                 src={article.urlToImage}
@@ -83,6 +89,8 @@ const News = () => {
                 }}
               />
             )}
+
+            {/* Article content */}
             <div>
               <h3 style={{ margin: '0 0 8px' }}>{article.title}</h3>
               <p style={{ margin: '0 0 10px' }}>{article.description}</p>
@@ -90,7 +98,12 @@ const News = () => {
                 Source: {article.source?.name} •{' '}
                 {new Date(article.publishedAt).toLocaleDateString()}
               </p>
-              <a href={article.url} target="_blank" rel="noopener noreferrer" style={{ color: '#ff2625' }}>
+              <a
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#ff2625' }}
+              >
                 Read More →
               </a>
             </div>

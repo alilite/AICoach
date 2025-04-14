@@ -1,3 +1,16 @@
+/**
+
+Workout Calendar Routes
+This module provides Express routes for managing workout calendar entries:
+POST /api/calendar - Create a new workout entry
+GET /api/calendar/:userId - Fetch all workouts for a specific user
+PUT /api/calendar/:id - Update an existing workout entry
+DELETE /api/calendar/:id - Remove a workout entry
+All routes include data validation and proper error handling.
+Calendar data is stored in Firebase Firestore in the 'workoutCalendar' collection. 
+*/
+
+
 const express = require('express');
 const router = express.Router();
 const { db } = require('../firebase');

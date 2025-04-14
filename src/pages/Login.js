@@ -5,41 +5,46 @@ import '../styles/UserInputForm.css';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // For redirecting after login
 
+  // Track user input and error message
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Update form data when user types
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle form submission and login logic
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
 
-    try 
-    {
-        const userCredential = await signInWithEmailAndPassword(
-            auth,
-            formData.email,
-            formData.password
-        );
+    try {
+      // Attempt to sign in with Firebase
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
 
-        navigate('/');
-    } 
-    catch (error) 
-    {
+      // On success, navigate to home page
+      navigate('/');
+    } catch (error) {
       console.error('Login error:', error);
-      setErrorMessage('Invalid email or password.');
+      setErrorMessage('Invalid email or password.'); // Show error to user
     }
   };
 
   return (
     <div className="container">
       <h1 className="heading">Login</h1>
+
+      {/* Login form */}
       <form className="formContainer" onSubmit={handleSubmit}>
+        {/* Email input */}
         <div className="inputContainer">
           <div className="iconContainer">📧</div>
           <input
@@ -52,6 +57,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Password input */}
         <div className="inputContainer">
           <div className="iconContainer">🔒</div>
           <input
@@ -64,12 +70,14 @@ const Login = () => {
           />
         </div>
 
+        {/* Error message */}
         {errorMessage && (
           <div style={{ color: 'red', fontSize: '13px', marginBottom: '10px' }}>
             {errorMessage}
           </div>
         )}
 
+        {/* Submit button */}
         <button className="button" type="submit">Login</button>
       </form>
     </div>

@@ -1,3 +1,6 @@
+/** 
+ * Imports the React library, providing core React functionality for component creation and rendering.
+ */
 import React from 'react';
 import { Link } from 'react-router-dom';
 

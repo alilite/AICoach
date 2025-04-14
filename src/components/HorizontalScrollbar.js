@@ -1,3 +1,6 @@
+/** 
+ * Imports the React library, providing core functionality for building user interface components.
+ */
 import React from 'react';
 
 const HorizontalScrollbar = ({ data, selectedBodyPart, setSelectedBodyPart }) => {
