@@ -7,6 +7,9 @@ const router = express.Router();
 const COHERE_API_KEY = process.env.COHERE_API_KEY;
 
 router.post('/', verifyToken, async (req, res) => {
+  console.log('Chat endpoint hit');
+  console.log('Using Cohere API key:', COHERE_API_KEY);
+
   const userId = req.user.uid;
   const { input, history } = req.body;
 
@@ -40,7 +43,6 @@ router.post('/', verifyToken, async (req, res) => {
       return res.status(500).json({ error: 'No AI response received' });
     }
 
-    // Save chat history
     await db.collection('chats').add({
       userId,
       userMessage: input,
@@ -55,7 +57,6 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
-// Get chat history for the authenticated user
 router.get('/', verifyToken, async (req, res) => {
   const userId = req.user.uid;
 
@@ -83,7 +84,6 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-// Delete a chat by ID (user must own it)
 router.delete('/:chatId', verifyToken, async (req, res) => {
   const { chatId } = req.params;
   const userId = req.user.uid;
